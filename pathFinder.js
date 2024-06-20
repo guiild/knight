@@ -9,7 +9,7 @@ class PathFinder {
     }
 
     createGridSquare = (sideSize = 8) => {
-        this.gridSquare = Array.from(Array(sideSize**2).keys())
+        this.gridSquare = Array(sideSize**2)
     }
 }
 
