@@ -16,7 +16,7 @@ describe('Pathfinder', () => {
         test('should have an gridSquare', () => {
             const gridSquare = finder.gridSquare;
 
-            expect(Array.isArray(gridSquare)).toBeTruthy();
+            expect(gridSquare).toMatchObject(Array(8**2));
         });
 
         test('should have an with at least a 8x8 cells', () => {
