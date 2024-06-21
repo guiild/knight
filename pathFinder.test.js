@@ -1,5 +1,4 @@
 const PathFinder = require('./pathFinder');
-const finder = require("./pathFinder");
 
 describe('Pathfinder', () => {
     let finder;
@@ -9,22 +8,34 @@ describe('Pathfinder', () => {
     })
 
     describe('TDD', () => {
-        test('should have a grid defined', () => {
-            expect(finder).toHaveProperty("gridSquare");
+        test('should have a board property', () => {
+            expect(finder).toHaveProperty("board");
         });
 
-        test('should have an gridSquare', () => {
-            const gridSquare = finder.gridSquare;
-
-            expect(gridSquare).toMatchObject(Array(8**2));
+        test('should have an board defined', () => {
+            expect(finder.board).toBeDefined();
         });
 
         test('should have an with at least a 8x8 cells', () => {
-            finder.createGridSquare(10)
-            const gridSquare = finder.gridSquare;
+            finder.buildBoard(10)
 
-            expect(gridSquare.length).toBeGreaterThanOrEqual(64);
+            expect(finder.board.length).toBeGreaterThanOrEqual(8);
         });
+
+        test('should be a 2 dimensional array', () => {
+            const r = finder.board.filter((row) => row.length !== 8);
+            expect(r).toHaveLength(0);
+            expect(finder.board).toHaveLength(8);
+        })
+
+
+        test('each cell should be unique and range from 1 to 64 for an 8x8 board', () => {
+            const flatBoard = finder.board.flat()
+            expect(Math.min(...flatBoard)).toBe(1);
+            expect(Math.max(...flatBoard)).toBe(64);
+        });
+
+
     })
 
     describe.skip('use cases', () => {
