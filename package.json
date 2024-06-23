@@ -9,6 +9,7 @@
     "test": "jest --watch"
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "prettier": "^3.3.2"
   }
 }
