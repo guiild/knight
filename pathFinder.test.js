@@ -8,33 +8,58 @@ describe('Pathfinder', () => {
     })
 
     describe('TDD', () => {
-        test('should have a board property', () => {
-            expect(finder).toHaveProperty("board");
+        describe('build board', () => {
+            test('should have a board property', () => {
+                expect(finder).toHaveProperty("board");
+            });
+
+            test('should have an board defined', () => {
+                expect(finder.board).toBeDefined();
+            });
+
+            test('should have an with at least a 8x8 cells', () => {
+                finder.buildBoard(10)
+
+                expect(finder.board.length).toBeGreaterThanOrEqual(8);
+            });
+
+            test('should be a 2 dimensional array', () => {
+                const r = finder.board.filter((row) => row.length !== 8);
+                expect(r).toHaveLength(0);
+                expect(finder.board).toHaveLength(8);
+            })
+
+            test('each cell should be unique and range from 1 to 64 for an 8x8 board', () => {
+                const flatBoard = finder.board.flat()
+                expect(Math.min(...flatBoard)).toBe(1);
+                expect(Math.max(...flatBoard)).toBe(64);
+            });
         });
 
-        test('should have an board defined', () => {
-            expect(finder.board).toBeDefined();
+        describe('knight moves', () => {
+            test.each([
+                {position: 1, target: 1, expected: [0, 0]},
+                {position: 5, target: 1, expected: [0, 4]},
+                {position: 24, target: 1, expected: [2, 7]},
+                {position: 64, target: 1, expected: [7, 7]}])("should start at the given position", ({
+                                                                                                         position,
+                                                                                                         target,
+                                                                                                         expected
+                                                                                                     }) => {
+
+                finder.getMinimumMoves(position, target);
+
+                expect(finder.knightPosition).toStrictEqual(expected);
+
+
+            })
+
+            test("should have a collection of moves", () => {
+                const knightMoves = finder.knightMoves;
+
+                expect(knightMoves).toStrictEqual([[2, 1], [2, -1], [-2, 1], [-2, -1]])
+            })
         });
-
-        test('should have an with at least a 8x8 cells', () => {
-            finder.buildBoard(10)
-
-            expect(finder.board.length).toBeGreaterThanOrEqual(8);
-        });
-
-        test('should be a 2 dimensional array', () => {
-            const r = finder.board.filter((row) => row.length !== 8);
-            expect(r).toHaveLength(0);
-            expect(finder.board).toHaveLength(8);
-        })
-
-
-        test('each cell should be unique and range from 1 to 64 for an 8x8 board', () => {
-            const flatBoard = finder.board.flat()
-            expect(Math.min(...flatBoard)).toBe(1);
-            expect(Math.max(...flatBoard)).toBe(64);
-        });
-
 
     })
 
