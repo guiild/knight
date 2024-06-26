@@ -59,7 +59,29 @@ describe('Pathfinder', () => {
 
                 expect(knightMoves).toStrictEqual([[2, 1], [2, -1], [-2, 1], [-2, -1]])
             })
+
+            test.each([
+                {position: 1, target: 1, expected: [0, 0]},
+                {position: 5, target: 1, expected: [0, 0]},
+                {position: 24, target: 1, expected: [0, 0]},
+                {position: 64, target: 1, expected: [0, 0]},
+                {position: 64, target: 42, expected: [5, 1]},
+            ])("should identify where is the cell target", ({
+                                                                position,
+                                                                target,
+                                                                expected
+                                                            }) => {
+                finder.getMinimumMoves(position, target)
+
+                expect(finder.knightTarget).toStrictEqual(expected)
+            })
         });
+
+        describe('BFR algo', () => {
+            test('should find the shortest path', () => {
+            })
+
+        })
 
     })
 
@@ -69,23 +91,31 @@ describe('Pathfinder', () => {
         });
 
         test('From 19 to 53', () => {
-            const finder = new PathFinder();
             expect(finder.getMinimumMoves(19, 53)).toBe(2);
         });
 
         test('From 1 to 64', () => {
-            const finder = new PathFinder();
             expect(finder.getMinimumMoves(1, 64)).toBe(6);
         });
 
         test('From 50 to 20', () => {
-            const finder = new PathFinder();
             expect(finder.getMinimumMoves(50, 20)).toBe(2);
         });
 
         test('From 50 to 51', () => {
-            const finder = new PathFinder();
             expect(finder.getMinimumMoves(50, 51)).toBe(3);
+        });
+
+        test('should handle invalid inputs', () => {
+
+            // Test case 6: Invalid initial position (0)
+            expect(() => finder.getMinimumMovesBFS(0, 1)).toThrow('Invalid initial position');
+
+            // Test case 7: Invalid target position (65)
+            expect(() => finder.getMinimumMovesBFS(1, 65)).toThrow('Invalid target position');
+
+            // Test case 8: Invalid initial and target positions (0, 65)
+            expect(() => finder.getMinimumMovesBFS(0, 65)).toThrow('Invalid initial position');
         });
     })
 });

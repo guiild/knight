@@ -2,6 +2,7 @@ class PathFinder {
     board = []
     knightMoves = [[2, 1], [2, -1], [-2, 1], [-2, -1]]
     knightPosition = [0, 0]
+    knightTarget = [0, 0]
 
     constructor() {
         this.buildBoard()
@@ -9,6 +10,7 @@ class PathFinder {
 
     getMinimumMoves = (position = 1, target = 1) => {
         this.setKnightPosition(position)
+        this.setKnightTarget(target)
         return 0
     }
 
@@ -27,11 +29,22 @@ class PathFinder {
         };
     }
 
-    setKnightPosition(position) {
-        const rowIndex = this.board.findIndex((row, index) => row.includes(position));
-        const cellIndex = this.board[rowIndex].indexOf(position);
+    getRowAndCellIndexes = (target) => {
+        const rowIndex = this.board.findIndex((row, index) => row.includes(target));
+        const cellIndex = this.board[rowIndex].indexOf(target);
+        return {rowIndex, cellIndex};
+    }
+
+    setKnightPosition = (position) => {
+        const {rowIndex, cellIndex} = this.getRowAndCellIndexes(position);
 
         this.knightPosition = [rowIndex, cellIndex];
+    }
+
+    setKnightTarget = (target) => {
+        const {rowIndex, cellIndex} = this.getRowAndCellIndexes(target);
+
+        this.knightTarget = [rowIndex, cellIndex]
     }
 
 
