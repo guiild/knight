@@ -1,4 +1,5 @@
 const PathFinder = require('./pathFinder');
+const Graph = require('./Graph');
 
 describe('Pathfinder', () => {
     let finder;
@@ -78,8 +79,22 @@ describe('Pathfinder', () => {
         });
 
         describe('BFR algo', () => {
-            test('should find the shortest path', () => {
+            test("should build a graph with all cell's neighbor ", () => {
+                finder.buildBoard(3);
+                console.log("=>(pathFinder.test.js:84) finder", finder);
+                finder.getMinimumMoves(1, 1);
+
+                expect(finder.graph).toStrictEqual({
+                    1: [6, 8],
+                    6: [7],
+                    8: [3],
+                    7: [2],
+                    3: [4],
+                    4: [9],
+                    9: [],
+                });
             })
+
 
         })
 

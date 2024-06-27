@@ -3,6 +3,15 @@ class PathFinder {
     knightMoves = [[2, 1], [2, -1], [-2, 1], [-2, -1]]
     knightPosition = [0, 0]
     knightTarget = [0, 0]
+    graph = {
+        1: [6, 8],
+        6: [7],
+        8: [3],
+        7: [2],
+        3: [4],
+        4: [9],
+        9: [],
+    }
 
     constructor() {
         this.buildBoard()
@@ -50,4 +59,5 @@ class PathFinder {
 
 }
 
-module.exports = PathFinder; 
+
+module.exports = PathFinder;
