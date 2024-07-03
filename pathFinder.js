@@ -26,8 +26,8 @@ class PathFinder {
         * up left = {y:-2, x:-1}
         * right up = {x:2, y:-1}
         * right down = {x:2, y:1}
-        * bottom right = {y:2, x:-1}
-        * bottom left = {y:-2, x:-1}
+        * bottom right = {y:2, x:1}
+        * bottom left = {y:2, x:-1}
         * left up = {x:-2, y:-1}
         * left bottom = {x:-2, y:1}
         * */
