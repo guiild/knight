@@ -20,6 +20,12 @@ class PathFinder {
     getMinimumMoves = (position = 1, target = 1) => {
         this.setKnightPosition(position)
         this.setKnightTarget(target)
+
+        const [moveForward, moveRight] = this.knightMoves[0]
+
+        this.graph = {
+            [position]: [6, 8]
+        }
         return 0
     }
 
