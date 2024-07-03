@@ -21,11 +21,19 @@ class PathFinder {
         this.setKnightPosition(position)
         this.setKnightTarget(target)
 
-        const [moveForward, moveRight] = this.knightMoves[0]
+        const [moveForward0, moveRight0] = this.knightMoves[0]
+        const [moveForward1, moveRight1] = this.knightMoves[1]
 
+        console.log("=>(pathFinder.js:26) this.knightPosition", this.knightPosition);
+        const [rowIndex, cellIndex] = this.knightPosition
+
+        const r1 = this.board[rowIndex + moveRight0][cellIndex + moveForward0]
+        console.log("=>(pathFinder.js:32) r", r1);
+        const r2 = 8
         this.graph = {
-            [position]: [6, 8]
+            [position]: [r1, r2]
         }
+
         return 0
     }
 

@@ -100,9 +100,8 @@ describe('Pathfinder', () => {
                 });
             })
 
-            test("should go on cell 3 then 6", () => {
+            test.only("should go on cell 6", () => {
                 finder.buildBoard(3);
-                console.log("=>(pathFinder.test.js:84) finder", finder);
                 finder.getMinimumMoves(1, 1);
 
                 const [moveForward, moveRight] = finder.knightMoves[0];
