@@ -116,6 +116,34 @@ describe('Pathfinder', () => {
                 expect(finder.graph[position]).toStrictEqual([6, 8]);
             })
 
+            test("should construct graph", () => {
+                const move1 = {x: 2, y: 1}
+
+                let position = target = 1;
+
+                finder.buildBoard(3);
+                /*
+               [
+                [ 1, 2, 3 ],
+                [ 4, 5, 6 ],
+                [ 7, 8, 9 ]
+               ],
+               * */
+
+                finder.getMinimumMoves(position, target);
+                finder.doMove(position, [move1]);
+
+                expect(finder.graph).toStrictEqual({
+                    1: [6, 8],
+                    6: [7],
+                    8: [3],
+                    7: [2],
+                    3: [4],
+                    4: [9],
+                    9: [],
+                });
+            })
+
 
         })
 
