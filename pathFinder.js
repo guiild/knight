@@ -39,7 +39,8 @@ class PathFinder {
     }
 
     doMove = (currentPosition, move) => {
-        this.graph = {[currentPosition]: [6]}
+        const cell = this.board[move.y][move.x]
+        this.graph = {[currentPosition]: [cell]}
     }
 
     buildBoard = (size = 8) => {
