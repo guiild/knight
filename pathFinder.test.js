@@ -81,7 +81,6 @@ describe('Pathfinder', () => {
 
             test("should go on cell 6", () => {
                 const move1 = {x: 2, y: 1}
-                const move2 = {y: 2, x: 1}
 
                 finder.buildBoard(3);
                 /*
@@ -94,14 +93,13 @@ describe('Pathfinder', () => {
                 finder.getMinimumMoves(1, 1);
                 finder.doMove(1, [move1]);
 
-                expect(finder.graph).toStrictEqual({
-                    1: [6]
-                });
+                expect(finder.graph[1]).toStrictEqual([6]);
             })
 
-            test.only("should go on cell 6 then cell 8", () => {
+            test("should go on cell 6 then cell 8", () => {
                 const move1 = {x: 2, y: 1}
                 const move2 = {y: 2, x: 1}
+                let position = target = 1;
 
                 finder.buildBoard(3);
                 /*
@@ -111,12 +109,11 @@ describe('Pathfinder', () => {
                 [ 7, 8, 9 ]
                ],
                * */
-                finder.getMinimumMoves(1, 1);
-                finder.doMove(1, [move1, move2]);
 
-                expect(finder.graph).toStrictEqual({
-                    1: [6, 8]
-                });
+                finder.getMinimumMoves(position, target);
+                finder.doMove(position, [move1, move2]);
+
+                expect(finder.graph[position]).toStrictEqual([6, 8]);
             })
 
 

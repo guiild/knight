@@ -41,11 +41,8 @@ class PathFinder {
     doMove = (currentPosition, moves) => {
         let cells = []
 
-        moves.forEach((move) => {
-            const cell = this.board[move.y][move.x]
-            cells.push(cell)
-        })
-        
+        moves.forEach(({x, y}) => cells.push(this.board[y][x]))
+
         this.graph = {[currentPosition]: cells}
     }
 
