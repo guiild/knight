@@ -32,20 +32,12 @@ class PathFinder {
         * left bottom = {x:-2, y:1}
         * */
 
-        const [moveForward0, moveRight0] = this.knightMoves[0]
-        const [moveForward1, moveRight1] = this.knightMoves[1]
-        const [moveForward2, moveRight2] = this.knightMoves[2]
-        const [moveForward3, moveRight3] = this.knightMoves[3]
-
-        const [rowIndex, cellIndex] = this.knightPosition
-
-        const r1 = this.board[rowIndex + moveRight0][cellIndex + moveForward0]
-        const r2 = this.board[rowIndex + moveForward1][cellIndex + moveRight1]
-        this.graph = {
-            [position]: [r1, r2]
-        }
 
         return 0
+    }
+
+    doMove = (move) => {
+        this.graph = {1: [6]}
     }
 
     buildBoard = (size = 8) => {

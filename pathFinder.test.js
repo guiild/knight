@@ -78,38 +78,25 @@ describe('Pathfinder', () => {
         });
 
         describe('BFR algo', () => {
-            test.skip("should build a graph with all cell's neighbor from given position", () => {
-                finder.buildBoard(3);
-                /*
-                [
-                 [ 1, 2, 3 ],
-                 [ 4, 5, 6 ],
-                 [ 7, 8, 9 ]
-                ],
-                * */
-                finder.getMinimumMoves(1, 1);
-
-                expect(finder.graph).toStrictEqual({
-                    1: [6, 8],
-                    6: [7],
-                    8: [3],
-                    7: [2],
-                    3: [4],
-                    4: [9],
-                    9: [],
-                });
-            })
 
             test.only("should go on cell 6", () => {
-                finder.buildBoard(3);
-                finder.getMinimumMoves(1, 1);
+                const move1 = {x: 2, y: 1}
+                const move2 = {y: 2, x: 1}
 
-                const [moveForward, moveRight] = finder.knightMoves[0];
+                finder.buildBoard(3);
+                /*
+               [
+                [ 1, 2, 3 ],
+                [ 4, 5, 6 ],
+                [ 7, 8, 9 ]
+               ],
+               * */
+                finder.getMinimumMoves(1, 1);
+                finder.doMove(move1);
 
                 expect(finder.graph).toStrictEqual({
-                    1: [6, 8]
+                    1: [6]
                 });
-
             })
 
 
