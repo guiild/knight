@@ -79,7 +79,7 @@ describe('Pathfinder', () => {
 
         describe('BFR algo', () => {
 
-            test.only("should go on cell 6", () => {
+            test("should go on cell 6", () => {
                 const move1 = {x: 2, y: 1}
                 const move2 = {y: 2, x: 1}
 
@@ -96,6 +96,26 @@ describe('Pathfinder', () => {
 
                 expect(finder.graph).toStrictEqual({
                     1: [6]
+                });
+            })
+
+            test.only("should go on cell 6 then cell 8", () => {
+                const move1 = {x: 2, y: 1}
+                const move2 = {y: 2, x: 1}
+
+                finder.buildBoard(3);
+                /*
+               [
+                [ 1, 2, 3 ],
+                [ 4, 5, 6 ],
+                [ 7, 8, 9 ]
+               ],
+               * */
+                finder.getMinimumMoves(1, 1);
+                finder.doMove(1, [move1, move2]);
+
+                expect(finder.graph).toStrictEqual({
+                    1: [6, 8]
                 });
             })
 
