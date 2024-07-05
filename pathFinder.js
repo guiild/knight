@@ -32,15 +32,17 @@ class PathFinder {
         * left bottom = {x:-2, y:1}
         * */
 
-        this.doMove(position, {x: 2, y: 1})
+        this.doMove(position, [{x: 2, y: 1}])
 
 
         return 0
     }
 
-    doMove = (currentPosition, move) => {
-        const cell = this.board[move.y][move.x]
-        this.graph = {[currentPosition]: [cell]}
+    doMove = (currentPosition, moves) => {
+        moves.forEach((move) => {
+            const cell = this.board[move.y][move.x]
+            this.graph = {[currentPosition]: [cell]}
+        })
     }
 
     buildBoard = (size = 8) => {

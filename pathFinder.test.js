@@ -92,7 +92,7 @@ describe('Pathfinder', () => {
                ],
                * */
                 finder.getMinimumMoves(1, 1);
-                finder.doMove(1, move1);
+                finder.doMove(1, [move1]);
 
                 expect(finder.graph).toStrictEqual({
                     1: [6]
