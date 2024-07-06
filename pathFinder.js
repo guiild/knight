@@ -14,9 +14,7 @@ class PathFinder {
         this.knightMoves.set("bottom left", {y: 2, x: -1})
         this.knightMoves.set("left up", {x: -2, y: -1})
         this.knightMoves.set("left bottom", {x: -2, y: 1})
-
     }
-
 
     getMinimumMoves = (position = 1, target = 1) => {
         this.doMove(position)
@@ -46,7 +44,6 @@ class PathFinder {
         cells.forEach(cell => {
             this.doMove(cell)
         })
-
     }
 
     buildBoard = (size = 8) => {
@@ -69,9 +66,6 @@ class PathFinder {
         const cellIndex = this.board[rowIndex].indexOf(target);
         return {rowIndex, cellIndex};
     }
-
-
 }
-
 
 module.exports = PathFinder;
