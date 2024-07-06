@@ -1,7 +1,15 @@
 const PathFinder = require('./pathFinder');
 
+
 describe('Pathfinder', () => {
     let finder;
+
+    function mockGetMinimumMoves() {
+        return (start, end, expectedResult) => {
+            const minimumMoves = finder.getMinimumMoves(start, end);
+            expect(minimumMoves).toBe(expectedResult);
+        };
+    }
 
     beforeEach(() => {
         finder = new PathFinder();
@@ -12,7 +20,7 @@ describe('Pathfinder', () => {
             test('should have a board property', () => {
                 expect(finder).toHaveProperty("board");
             });
-
+ 
             test('should have an board defined', () => {
                 expect(finder.board).toBeDefined();
             });
@@ -37,21 +45,14 @@ describe('Pathfinder', () => {
         });
 
         describe('knight moves', () => {
-            test.each([{
-                position: 1, target: 1, expected: {"cellIndex": 0, "rowIndex": 0}
-            }, {
-                position: 5,
-                target: 1,
-                expected: {"cellIndex": 4, "rowIndex": 0}
-            }, {position: 24, target: 1, expected: {"cellIndex": 7, "rowIndex": 2}}, {
-                position: 64,
-                target: 1,
-                expected: {"cellIndex": 7, "rowIndex": 7}
 
-            }])("should start at the given position", ({
-                                                           position, target, expected
-                                                       }) => {
-
+            test.each`
+  position    | target    | expected
+  ${1} | ${1} | ${{"cellIndex": 0, "rowIndex": 0}}
+  ${5} | ${1} | ${{"cellIndex": 4, "rowIndex": 0}}
+  ${24} | ${1} | ${{"cellIndex": 7, "rowIndex": 2}}
+  ${64} | ${1} | ${{"cellIndex": 7, "rowIndex": 7}}
+`("should start at the given position : $position", ({position, target, expected}) => {
                 finder.getMinimumMoves(position, target);
 
                 expect(finder.getRowAndCellIndexes(position)).toStrictEqual(expected);
@@ -78,9 +79,9 @@ describe('Pathfinder', () => {
         });
 
         describe('BFR algo', () => {
-            test("should a path length of 3", () => {
+
+            beforeEach(() => {
                 finder.buildBoard(3);
-                finder.getMinimumMoves(1, 4);
                 /*
                   [
                    [ 1, 2, 3 ],
@@ -88,45 +89,27 @@ describe('Pathfinder', () => {
                    [ 7, 8, 9 ]
                   ],
                 * */
-
-                expect(finder.getMinimumMoves(1, 4)).toBe(3);
             })
 
-            test("should a path length of 1", () => {
-                finder.buildBoard(3);
+            test.each([
+                [1, 4, 3],
+                [1, 6, 1],
+                [1, 5, 0]
+            ])("should a path length of 3", mockGetMinimumMoves())
 
-                expect(finder.getMinimumMoves(1, 6)).toBe(1);
-            })
-
-            test("should a path length of 0", () => {
-                finder.buildBoard(3);
-
-                expect(finder.getMinimumMoves(1, 5)).toBe(0);
-            })
 
         })
 
     })
 
     describe('use cases', () => {
-        test('From 1 to 1', () => {
-            expect(finder.getMinimumMoves(1, 1)).toBe(0);
-        });
+        test.each([
+            [1, 1, 0],
+            [19, 53, 2],
+            [1, 64, 6],
+            [50, 20, 2],
+            [50, 51, 3],
+        ])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
 
-        test('From 19 to 53', () => {
-            expect(finder.getMinimumMoves(19, 53)).toBe(2);
-        });
-
-        test('From 1 to 64', () => {
-            expect(finder.getMinimumMoves(1, 64)).toBe(6);
-        });
-
-        test('From 50 to 20', () => {
-            expect(finder.getMinimumMoves(50, 20)).toBe(2);
-        });
-
-        test('From 50 to 51', () => {
-            expect(finder.getMinimumMoves(50, 51)).toBe(3);
-        });
     })
 });
