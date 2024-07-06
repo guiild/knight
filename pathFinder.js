@@ -32,7 +32,7 @@ class PathFinder {
 
         let cells = new Set()
 
-        this.knightMoves.forEach(({x, y}, index) => {
+        this.knightMoves.forEach(({x, y}) => {
             const target = this.board[y + rowIndex]?.[x + cellIndex];
             if (target && !this.graph.has(target)) {
                 cells.add(target)
@@ -62,7 +62,7 @@ class PathFinder {
     }
 
     getRowAndCellIndexes = (target) => {
-        const rowIndex = this.board.findIndex((row, index) => row.includes(target));
+        const rowIndex = this.board.findIndex((row) => row.includes(target));
         const cellIndex = this.board[rowIndex].indexOf(target);
         return {rowIndex, cellIndex};
     }
