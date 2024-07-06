@@ -53,16 +53,12 @@ class PathFinder {
         let cells = []
 
         moveList.forEach(({x, y}) => {
-            const rowInRange = this.board[y + rowIndex]
+            const targetCell = this.board[y + rowIndex]?.[x + cellIndex];
 
-            if (rowInRange) {
-                const cellInRange = this.board[y + rowIndex][x + cellIndex]
-
-                if (cellInRange) {
-                    cells.push(this.board[y + rowIndex][x + cellIndex])
-                }
+            if (targetCell) {
+                cells.push(targetCell);
             }
-        })
+        });
 
 
         this.graph.add({[fromCellPosition]: cells})
