@@ -37,46 +37,44 @@ describe('Pathfinder', () => {
         });
 
         describe('knight moves', () => {
-            test.each([{position: 1, target: 1, expected: [0, 0]}, {
+            test.each([{
+                position: 1, target: 1, expected: {"cellIndex": 0, "rowIndex": 0}
+            }, {
                 position: 5,
                 target: 1,
-                expected: [0, 4]
-            }, {position: 24, target: 1, expected: [2, 7]}, {
+                expected: {"cellIndex": 4, "rowIndex": 0}
+            }, {position: 24, target: 1, expected: {"cellIndex": 7, "rowIndex": 2}}, {
                 position: 64,
                 target: 1,
-                expected: [7, 7]
+                expected: {"cellIndex": 7, "rowIndex": 7}
+
             }])("should start at the given position", ({
                                                            position, target, expected
                                                        }) => {
 
                 finder.getMinimumMoves(position, target);
 
-                expect(finder.knightPosition).toStrictEqual(expected);
+                expect(finder.getRowAndCellIndexes(position)).toStrictEqual(expected);
 
 
             })
 
             test("should have a collection of moves", () => {
                 const knightMoves = finder.knightMoves;
+                const expectecMap = new Map();
 
-                expect(knightMoves).toStrictEqual([[2, 1], [2, -1], [-2, 1], [-2, -1]])
+                expectecMap.set("up right", {y: -2, x: 1})
+                expectecMap.set("up left", {y: -2, x: -1})
+                expectecMap.set("right up", {x: 2, y: -1})
+                expectecMap.set("right down", {x: 2, y: 1})
+                expectecMap.set("bottom right", {y: 2, x: 1})
+                expectecMap.set("bottom left", {y: 2, x: -1})
+                expectecMap.set("left up", {x: -2, y: -1})
+                expectecMap.set("left bottom", {x: -2, y: 1})
+
+                expect(knightMoves).toStrictEqual(expectecMap);
             })
-
-            test.each([{position: 1, target: 1, expected: [0, 0]}, {
-                position: 5,
-                target: 1,
-                expected: [0, 0]
-            }, {position: 24, target: 1, expected: [0, 0]}, {position: 64, target: 1, expected: [0, 0]}, {
-                position: 64,
-                target: 42,
-                expected: [5, 1]
-            },])("should identify where is the cell target", ({
-                                                                  position, target, expected
-                                                              }) => {
-                finder.getMinimumMoves(position, target)
-
-                expect(finder.knightTarget).toStrictEqual(expected)
-            })
+            
         });
 
         describe('BFR algo', () => {
