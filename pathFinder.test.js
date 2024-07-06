@@ -56,8 +56,6 @@ describe('Pathfinder', () => {
                 finder.getMinimumMoves(position, target);
 
                 expect(finder.getRowAndCellIndexes(position)).toStrictEqual(expected);
-
-
             })
 
             test("should have a collection of moves", () => {
@@ -91,11 +89,7 @@ describe('Pathfinder', () => {
                 * */
             })
 
-            test.each([
-                [1, 4, 3],
-                [1, 6, 1],
-                [1, 5, 0]
-            ])("should a path length of 3", mockGetMinimumMoves())
+            test.each([[1, 4, 3], [1, 6, 1], [1, 5, 0]])("should a path length of 3", mockGetMinimumMoves())
 
 
         })
@@ -103,13 +97,7 @@ describe('Pathfinder', () => {
     })
 
     describe('use cases', () => {
-        test.each([
-            [1, 1, 0],
-            [19, 53, 2],
-            [1, 64, 6],
-            [50, 20, 2],
-            [50, 51, 3],
-        ])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
+        test.each([[1, 1, 0], [19, 53, 2], [1, 64, 6], [50, 20, 2], [50, 51, 3],])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
     })
 });
 
