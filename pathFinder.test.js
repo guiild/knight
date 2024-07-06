@@ -74,18 +74,12 @@ describe('Pathfinder', () => {
 
                 expect(knightMoves).toStrictEqual(expectecMap);
             })
-            
+
         });
 
         describe('BFR algo', () => {
             test("should start from cell 1 then have 6 and 8 has next cells", () => {
-                /*
-                  [
-                   [ 1, 2, 3 ],
-                   [ 4, 5, 6 ],
-                   [ 7, 8, 9 ]
-                  ],
-                * */
+
                 finder.buildBoard(3);
                 finder.getMinimumMoves(1, 6);
 
@@ -94,7 +88,6 @@ describe('Pathfinder', () => {
             })
 
             test("should start from cell 2 then have 9 and 7 has next cells", () => {
-                const secondKey = {"2": [9, 7]}
 
                 finder.buildBoard(3);
                 finder.getMinimumMoves(2, 9);
@@ -142,47 +135,15 @@ describe('Pathfinder', () => {
 
             test("should a path length of 5", () => {
                 finder.buildBoard(3);
-                /*
-                  [
-                   [ 1, 2, 3 ],
-                   [ 4, 5, 6 ],
-                   [ 7, 8, 9 ]
-                  ],
-                * */
 
                 expect(finder.getMinimumMoves(1, 6)).toBe(1);
             })
 
             test("should a path length of 5", () => {
                 finder.buildBoard(3);
-                /*
-                  [
-                   [ 1, 2, 3 ],
-                   [ 4, 5, 6 ],
-                   [ 7, 8, 9 ]
-                  ],
-                * */
 
                 expect(finder.getMinimumMoves(1, 5)).toBe(0);
             })
-
-
-            /*
-            * 1--
-            *   6--
-            *     7--
-            *       2--
-            *         9--
-            *           4--
-            *   8--
-            *     3--
-            *       4--
-            *         9--
-            *           2--
-            *             7--
-            *               6--
-            *
-            * */
 
         })
 
