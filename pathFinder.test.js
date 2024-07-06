@@ -20,7 +20,7 @@ describe('Pathfinder', () => {
             test('should have a board property', () => {
                 expect(finder).toHaveProperty("board");
             });
- 
+
             test('should have an board defined', () => {
                 expect(finder.board).toBeDefined();
             });
@@ -110,6 +110,6 @@ describe('Pathfinder', () => {
             [50, 20, 2],
             [50, 51, 3],
         ])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
-
     })
 });
+

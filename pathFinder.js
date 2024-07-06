@@ -1,7 +1,6 @@
 class PathFinder {
     board = []
     knightMoves = new Map()
-    graph = new Map()
 
     constructor() {
         this.buildBoard()
