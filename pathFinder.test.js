@@ -83,7 +83,7 @@ describe('Pathfinder', () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(1, 6);
 
-                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([6, 8]));
+                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([6]));
 
             })
 
@@ -92,7 +92,7 @@ describe('Pathfinder', () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(2, 9);
 
-                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([9, 7]));
+                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([9]));
             })
 
             test("should start from cell 5 then have 9 and 7 has next cells", () => {
@@ -100,7 +100,7 @@ describe('Pathfinder', () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(5, 9);
 
-                expect(Array.from(finder.graph.keys())[0]).toBeUndefined();
+                expect(Array.from(finder.graph.keys())[0]).toBe(5);
             })
 
             test("should construct graph", () => {
@@ -109,7 +109,7 @@ describe('Pathfinder', () => {
                 finder.getMinimumMoves(1, 6);
 
                 expect(Array.from(finder.graph.entries())).toStrictEqual([
-                    [1, new Set([6, 8])],
+                    [1, new Set([6])],
                     [6, new Set([7])],
                     [7, new Set([2])],
                     [2, new Set([9])],

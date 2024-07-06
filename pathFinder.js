@@ -19,14 +19,11 @@ class PathFinder {
     getMinimumMoves = (position = 1, target = 1) => {
         const queue = [{cell: position, moves: 0}];
         const visited = new Set();
-
+        let cells = new Set()
 
         while (queue.length) {
             const {cell, moves} = queue.shift();
             visited.add(cell);
-
-            this.doMove(cell)
-
 
             if (cell === target) {
                 return moves;
@@ -41,30 +38,20 @@ class PathFinder {
                     queue.push({cell: targetCell, moves: moves + 1});
                     visited.add(targetCell);
                 }
+
+
+                if (target && !this.graph.has(target)) {
+                    cells.size && this.graph.set(cell, cells)
+                    cells.add(target)
+                }
             });
+
+
         }
 
         return 0;
     }
 
-    doMove = (fromCellPosition) => {
-        const {rowIndex, cellIndex} = this.getRowAndCellIndexes(fromCellPosition)
-
-        let cells = new Set()
-
-        this.knightMoves.forEach(({x, y}) => {
-            const target = this.board[y + rowIndex]?.[x + cellIndex];
-            if (target && !this.graph.has(target)) {
-                cells.add(target)
-            }
-        });
-
-        cells.size && this.graph.set(fromCellPosition, cells)
-
-        cells.forEach(cell => {
-            this.doMove(cell)
-        })
-    }
 
     buildBoard = (size = 8) => {
         const flatBoard = Array.from({length: size ** 2}, (_, index) => index + 1)
