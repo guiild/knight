@@ -78,48 +78,7 @@ describe('Pathfinder', () => {
         });
 
         describe('BFR algo', () => {
-            test("should start from cell 1 then have 6 and 8 has next cells", () => {
-
-                finder.buildBoard(3);
-                finder.getMinimumMoves(1, 6);
-
-                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([6]));
-
-            })
-
-            test("should start from cell 2 then have 9 and 7 has next cells", () => {
-
-                finder.buildBoard(3);
-                finder.getMinimumMoves(2, 9);
-
-                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([9]));
-            })
-
-            test("should start from cell 5 then have 9 and 7 has next cells", () => {
-
-                finder.buildBoard(3);
-                finder.getMinimumMoves(5, 9);
-
-                expect(Array.from(finder.graph.keys())[0]).toBe(5);
-            })
-
-            test("should construct graph", () => {
-
-                finder.buildBoard(3);
-                finder.getMinimumMoves(1, 6);
-
-                expect(Array.from(finder.graph.entries())).toStrictEqual([
-                    [1, new Set([6])],
-                    [6, new Set([7])],
-                    [7, new Set([2])],
-                    [2, new Set([9])],
-                    [9, new Set([4])],
-                    [4, new Set([3])],
-                    [3, new Set([8])],
-                ]);
-            })
-
-            test("should a path length of 5", () => {
+            test("should a path length of 3", () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(1, 4);
                 /*
@@ -133,13 +92,13 @@ describe('Pathfinder', () => {
                 expect(finder.getMinimumMoves(1, 4)).toBe(3);
             })
 
-            test("should a path length of 5", () => {
+            test("should a path length of 1", () => {
                 finder.buildBoard(3);
 
                 expect(finder.getMinimumMoves(1, 6)).toBe(1);
             })
 
-            test("should a path length of 5", () => {
+            test("should a path length of 0", () => {
                 finder.buildBoard(3);
 
                 expect(finder.getMinimumMoves(1, 5)).toBe(0);

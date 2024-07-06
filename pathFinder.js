@@ -19,7 +19,6 @@ class PathFinder {
     getMinimumMoves = (position = 1, target = 1) => {
         const queue = [{cell: position, moves: 0}];
         const visited = new Set();
-        let cells = new Set()
 
         while (queue.length) {
             const {cell, moves} = queue.shift();
@@ -38,15 +37,7 @@ class PathFinder {
                     queue.push({cell: targetCell, moves: moves + 1});
                     visited.add(targetCell);
                 }
-
-
-                if (target && !this.graph.has(target)) {
-                    cells.size && this.graph.set(cell, cells)
-                    cells.add(target)
-                }
             });
-
-
         }
 
         return 0;
