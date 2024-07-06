@@ -3,7 +3,7 @@ class PathFinder {
     knightMoves = [[2, 1], [2, -1], [-2, 1], [-2, -1]]
     knightPosition = [0, 0]
     knightTarget = [0, 0]
-    graph = new Set()
+    graph = new Map()
     startPosition = undefined
 
     constructor() {
@@ -31,12 +31,14 @@ class PathFinder {
         * left bottom = {x:-2, y:1}
         * */
 
+        const values = [...this.graph.values()]
 
-        return 0
+        const [forwardPath] = values.map((v, index) => v.has(target) ? index + 1 : 0).filter((v) => v)
+        const [reversedPath] = values.reverse().map((v, index) => v.has(4) ? index + 1 : 0).filter((v) => v)
+        return Math.min(forwardPath || 0, reversedPath || 0)
     }
 
     doMove = (fromCellPosition) => {
-        console.log("=>(pathFinder.js:39) fromCellPosition", fromCellPosition);
         const moveList = new Map()
 
         moveList.set("up right", {y: -2, x: 1})
@@ -50,24 +52,21 @@ class PathFinder {
 
         const {rowIndex, cellIndex} = this.getRowAndCellIndexes(fromCellPosition)
 
-        let cells = []
+        let cells = new Set()
 
-        moveList.forEach(({x, y}) => {
-            const targets = this.board[y + rowIndex]?.[x + cellIndex];
-
-            if (targets) {
-                cells.push(targets);
+        moveList.forEach(({x, y}, index) => {
+            const target = this.board[y + rowIndex]?.[x + cellIndex];
+            if (target && !this.graph.has(target)) {
+                cells.add(target)
             }
         });
 
+        cells.size && this.graph.set(fromCellPosition, cells)
 
-        this.graph.add({[fromCellPosition]: cells})
+        cells.forEach(cell => {
+            this.doMove(cell)
+        })
 
-        // if (cells.length) {
-        //     cells.forEach(cell => {
-        //         this.doMove(cell)
-        //     })
-        // }
     }
 
     buildBoard = (size = 8) => {

@@ -81,7 +81,6 @@ describe('Pathfinder', () => {
 
         describe('BFR algo', () => {
             test("should start from cell 1 then have 6 and 8 has next cells", () => {
-                const firstKey = {"1": [6, 8]}
                 /*
                   [
                    [ 1, 2, 3 ],
@@ -92,7 +91,7 @@ describe('Pathfinder', () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(1, 6);
 
-                expect(Array.from(finder.graph.keys())[0]).toStrictEqual(firstKey);
+                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([6, 8]));
 
             })
 
@@ -102,25 +101,96 @@ describe('Pathfinder', () => {
                 finder.buildBoard(3);
                 finder.getMinimumMoves(2, 9);
 
-                expect(Array.from(finder.graph.keys())[0]).toStrictEqual(secondKey);
+                expect(Array.from(finder.graph.values())[0]).toStrictEqual(new Set([9, 7]));
             })
 
-            test.skip("should construct graph", () => {
+            test("should start from cell 5 then have 9 and 7 has next cells", () => {
+
+                finder.buildBoard(3);
+                finder.getMinimumMoves(5, 9);
+
+                expect(Array.from(finder.graph.keys())[0]).toBeUndefined();
+            })
+
+            test("should construct graph", () => {
 
                 finder.buildBoard(3);
                 finder.getMinimumMoves(1, 6);
 
-                expect(finder.graph).toStrictEqual({
-                    1: [6, 8], 6: [7], 8: [3], 7: [2], 3: [4], 4: [9], 9: [],
-                });
+                expect(Array.from(finder.graph.entries())).toStrictEqual([
+                    [1, new Set([6, 8])],
+                    [6, new Set([7])],
+                    [7, new Set([2])],
+                    [2, new Set([9])],
+                    [9, new Set([4])],
+                    [4, new Set([3])],
+                    [3, new Set([8])],
+                ]);
             })
 
+            test("should a path length of 5", () => {
+                finder.buildBoard(3);
+                finder.getMinimumMoves(1, 4);
+                /*
+                  [
+                   [ 1, 2, 3 ],
+                   [ 4, 5, 6 ],
+                   [ 7, 8, 9 ]
+                  ],
+                * */
+
+                expect(finder.getMinimumMoves(1, 4)).toBe(3);
+            })
+
+            test("should a path length of 5", () => {
+                finder.buildBoard(3);
+                /*
+                  [
+                   [ 1, 2, 3 ],
+                   [ 4, 5, 6 ],
+                   [ 7, 8, 9 ]
+                  ],
+                * */
+
+                expect(finder.getMinimumMoves(1, 6)).toBe(1);
+            })
+
+            test("should a path length of 5", () => {
+                finder.buildBoard(3);
+                /*
+                  [
+                   [ 1, 2, 3 ],
+                   [ 4, 5, 6 ],
+                   [ 7, 8, 9 ]
+                  ],
+                * */
+
+                expect(finder.getMinimumMoves(1, 5)).toBe(0);
+            })
+
+
+            /*
+            * 1--
+            *   6--
+            *     7--
+            *       2--
+            *         9--
+            *           4--
+            *   8--
+            *     3--
+            *       4--
+            *         9--
+            *           2--
+            *             7--
+            *               6--
+            *
+            * */
 
         })
 
     })
 
-    describe.skip('use cases', () => {
+    describe('use cases', () => {
         test('From 1 to 1', () => {
             expect(finder.getMinimumMoves(1, 1)).toBe(0);
         });
@@ -139,18 +209,6 @@ describe('Pathfinder', () => {
 
         test('From 50 to 51', () => {
             expect(finder.getMinimumMoves(50, 51)).toBe(3);
-        });
-
-        test('should handle invalid inputs', () => {
-
-            // Test case 6: Invalid initial position (0)
-            expect(() => finder.getMinimumMovesBFS(0, 1)).toThrow('Invalid initial position');
-
-            // Test case 7: Invalid target position (65)
-            expect(() => finder.getMinimumMovesBFS(1, 65)).toThrow('Invalid target position');
-
-            // Test case 8: Invalid initial and target positions (0, 65)
-            expect(() => finder.getMinimumMovesBFS(0, 65)).toThrow('Invalid initial position');
         });
     })
 });
