@@ -3,23 +3,22 @@ class PathFinder {
     knightMoves = [[2, 1], [2, -1], [-2, 1], [-2, -1]]
     knightPosition = [0, 0]
     knightTarget = [0, 0]
-    graph = {
-        1: [6, 8],
-        6: [7],
-        8: [3],
-        7: [2],
-        3: [4],
-        4: [9],
-        9: [],
-    }
+    graph = new Set()
+    startPosition = undefined
 
     constructor() {
         this.buildBoard()
+
+
     }
+
 
     getMinimumMoves = (position = 1, target = 1) => {
         this.setKnightPosition(position)
         this.setKnightTarget(target)
+        this.doMove(position)
+
+        this.startPosition = position
 
         /* TODO : replace knightMoves with a map
         * up right = {y:-2, x:1}
@@ -32,18 +31,47 @@ class PathFinder {
         * left bottom = {x:-2, y:1}
         * */
 
-        this.doMove(position, [{x: 2, y: 1}])
-
 
         return 0
     }
 
-    doMove = (currentPosition, moves) => {
+    doMove = (fromCellPosition) => {
+        console.log("=>(pathFinder.js:39) fromCellPosition", fromCellPosition);
+        const moveList = new Map()
+
+        moveList.set("up right", {y: -2, x: 1})
+        moveList.set("up left", {y: -2, x: -1})
+        moveList.set("right up", {x: 2, y: -1})
+        moveList.set("right down", {x: 2, y: 1})
+        moveList.set("bottom right", {y: 2, x: 1})
+        moveList.set("bottom left", {y: 2, x: -1})
+        moveList.set("left up", {x: -2, y: -1})
+        moveList.set("left bottom", {x: -2, y: 1})
+
+        const {rowIndex, cellIndex} = this.getRowAndCellIndexes(fromCellPosition)
+
         let cells = []
 
-        moves.forEach(({x, y}) => cells.push(this.board[y][x]))
+        moveList.forEach(({x, y}) => {
+            const rowInRange = this.board[y + rowIndex]
 
-        this.graph = {[currentPosition]: cells}
+            if (rowInRange) {
+                const cellInRange = this.board[y + rowIndex][x + cellIndex]
+
+                if (cellInRange) {
+                    cells.push(this.board[y + rowIndex][x + cellIndex])
+                }
+            }
+        })
+
+
+        this.graph.add({[fromCellPosition]: cells})
+
+        // if (cells.length) {
+        //     cells.forEach(cell => {
+        //         this.doMove(cell)
+        //     })
+        // }
     }
 
     buildBoard = (size = 8) => {

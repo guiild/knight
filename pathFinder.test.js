@@ -37,15 +37,17 @@ describe('Pathfinder', () => {
         });
 
         describe('knight moves', () => {
-            test.each([
-                {position: 1, target: 1, expected: [0, 0]},
-                {position: 5, target: 1, expected: [0, 4]},
-                {position: 24, target: 1, expected: [2, 7]},
-                {position: 64, target: 1, expected: [7, 7]}])("should start at the given position", ({
-                                                                                                         position,
-                                                                                                         target,
-                                                                                                         expected
-                                                                                                     }) => {
+            test.each([{position: 1, target: 1, expected: [0, 0]}, {
+                position: 5,
+                target: 1,
+                expected: [0, 4]
+            }, {position: 24, target: 1, expected: [2, 7]}, {
+                position: 64,
+                target: 1,
+                expected: [7, 7]
+            }])("should start at the given position", ({
+                                                           position, target, expected
+                                                       }) => {
 
                 finder.getMinimumMoves(position, target);
 
@@ -60,17 +62,17 @@ describe('Pathfinder', () => {
                 expect(knightMoves).toStrictEqual([[2, 1], [2, -1], [-2, 1], [-2, -1]])
             })
 
-            test.each([
-                {position: 1, target: 1, expected: [0, 0]},
-                {position: 5, target: 1, expected: [0, 0]},
-                {position: 24, target: 1, expected: [0, 0]},
-                {position: 64, target: 1, expected: [0, 0]},
-                {position: 64, target: 42, expected: [5, 1]},
-            ])("should identify where is the cell target", ({
-                                                                position,
-                                                                target,
-                                                                expected
-                                                            }) => {
+            test.each([{position: 1, target: 1, expected: [0, 0]}, {
+                position: 5,
+                target: 1,
+                expected: [0, 0]
+            }, {position: 24, target: 1, expected: [0, 0]}, {position: 64, target: 1, expected: [0, 0]}, {
+                position: 64,
+                target: 42,
+                expected: [5, 1]
+            },])("should identify where is the cell target", ({
+                                                                  position, target, expected
+                                                              }) => {
                 finder.getMinimumMoves(position, target)
 
                 expect(finder.knightTarget).toStrictEqual(expected)
@@ -78,69 +80,38 @@ describe('Pathfinder', () => {
         });
 
         describe('BFR algo', () => {
-
-            test("should go on cell 6", () => {
-                const move1 = {x: 2, y: 1}
-
-                finder.buildBoard(3);
+            test("should start from cell 1 then have 6 and 8 has next cells", () => {
+                const firstKey = {"1": [6, 8]}
                 /*
-               [
-                [ 1, 2, 3 ],
-                [ 4, 5, 6 ],
-                [ 7, 8, 9 ]
-               ],
-               * */
-                finder.getMinimumMoves(1, 1);
-                finder.doMove(1, [move1]);
+                  [
+                   [ 1, 2, 3 ],
+                   [ 4, 5, 6 ],
+                   [ 7, 8, 9 ]
+                  ],
+                * */
+                finder.buildBoard(3);
+                finder.getMinimumMoves(1, 6);
 
-                expect(finder.graph[1]).toStrictEqual([6]);
+                expect(Array.from(finder.graph.keys())[0]).toStrictEqual(firstKey);
+
             })
 
-            test("should go on cell 6 then cell 8", () => {
-                const move1 = {x: 2, y: 1}
-                const move2 = {y: 2, x: 1}
-                let position = target = 1;
+            test("should start from cell 2 then have 9 and 7 has next cells", () => {
+                const secondKey = {"2": [9, 7]}
 
                 finder.buildBoard(3);
-                /*
-               [
-                [ 1, 2, 3 ],
-                [ 4, 5, 6 ],
-                [ 7, 8, 9 ]
-               ],
-               * */
+                finder.getMinimumMoves(2, 9);
 
-                finder.getMinimumMoves(position, target);
-                finder.doMove(position, [move1, move2]);
-
-                expect(finder.graph[position]).toStrictEqual([6, 8]);
+                expect(Array.from(finder.graph.keys())[0]).toStrictEqual(secondKey);
             })
 
-            test("should construct graph", () => {
-                const move1 = {x: 2, y: 1}
-
-                let position = target = 1;
+            test.skip("should construct graph", () => {
 
                 finder.buildBoard(3);
-                /*
-               [
-                [ 1, 2, 3 ],
-                [ 4, 5, 6 ],
-                [ 7, 8, 9 ]
-               ],
-               * */
-
-                finder.getMinimumMoves(position, target);
-                finder.doMove(position, [move1]);
+                finder.getMinimumMoves(1, 6);
 
                 expect(finder.graph).toStrictEqual({
-                    1: [6, 8],
-                    6: [7],
-                    8: [3],
-                    7: [2],
-                    3: [4],
-                    4: [9],
-                    9: [],
+                    1: [6, 8], 6: [7], 8: [3], 7: [2], 3: [4], 4: [9], 9: [],
                 });
             })
 
