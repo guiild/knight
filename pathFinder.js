@@ -17,14 +17,34 @@ class PathFinder {
     }
 
     getMinimumMoves = (position = 1, target = 1) => {
-        this.doMove(position)
+        const queue = [{cell: position, moves: 0}];
+        const visited = new Set();
 
-        const values = [...this.graph.values()]
 
-        const [forwardPath] = values.map((v, index) => v.has(target) ? index + 1 : 0).filter((v) => v)
-        const [reversedPath] = values.reverse().map((v, index) => v.has(target) ? index + 1 : 0).filter((v) => v)
+        while (queue.length) {
+            const {cell, moves} = queue.shift();
+            visited.add(cell);
 
-        return Math.min(forwardPath || 0, reversedPath || 0)
+            this.doMove(cell)
+
+
+            if (cell === target) {
+                return moves;
+            }
+
+            const {rowIndex, cellIndex} = this.getRowAndCellIndexes(cell)
+
+            this.knightMoves.forEach(({x, y}) => {
+                const targetCell = this.board[y + rowIndex]?.[x + cellIndex];
+
+                if (targetCell && !visited.has(targetCell)) {
+                    queue.push({cell: targetCell, moves: moves + 1});
+                    visited.add(targetCell);
+                }
+            });
+        }
+
+        return 0;
     }
 
     doMove = (fromCellPosition) => {
