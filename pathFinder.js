@@ -53,10 +53,10 @@ class PathFinder {
         let cells = []
 
         moveList.forEach(({x, y}) => {
-            const targetCell = this.board[y + rowIndex]?.[x + cellIndex];
+            const targets = this.board[y + rowIndex]?.[x + cellIndex];
 
-            if (targetCell) {
-                cells.push(targetCell);
+            if (targets) {
+                cells.push(targets);
             }
         });
 
