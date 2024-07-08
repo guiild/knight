@@ -89,15 +89,48 @@ describe('Pathfinder', () => {
                 * */
             })
 
-            test.each([[1, 4, 3], [1, 6, 1], [1, 5, 0]])("should a path length of 3", mockGetMinimumMoves())
+            test.each([
+                // position, target, expected
+                [1, 4, 3],
+                [1, 6, 1],
+                [1, 5, 0]
+            ])("should a path length of 3", mockGetMinimumMoves())
 
 
         })
 
     })
 
-    describe('use cases', () => {
-        test.each([[1, 1, 0], [19, 53, 2], [1, 64, 6], [50, 20, 2], [50, 51, 3],])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
+    describe('TASK 1', () => {
+        beforeEach(() => finder.buildBoard())
+
+        test.each([
+            // position, target, expected
+            [1, 1, 0],
+            [19, 53, 2],
+            [1, 64, 6],
+            [50, 20, 2],
+            [50, 51, 3]
+        ])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
+    })
+
+    describe('TASK 2', () => {
+        beforeEach(() => finder.buildBoard(100))
+
+        test.each([
+            // position, target, expected
+            [12, 50, 20],
+            [1, 100, 51],
+            [100, 1, 51],
+            [24, 20, 2],
+            [20, 24, 2],
+            [42, 42, 0],
+            [25, 75, 26]
+        ])('minimum move' +
+            ' from' +
+            ' %i to %i' +
+            ' should' +
+            ' be %i', mockGetMinimumMoves());
     })
 });
 
