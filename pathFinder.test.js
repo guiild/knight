@@ -1,26 +1,136 @@
 const PathFinder = require('./pathFinder');
 
-test('From 1 to 1', () => {
-    const finder = new PathFinder();
-    expect(finder.getMinimumMoves(1, 1)).toBe(0);
+
+describe('Pathfinder', () => {
+    let finder;
+
+    function mockGetMinimumMoves() {
+        return (start, end, expectedResult) => {
+            const minimumMoves = finder.getMinimumMoves(start, end);
+            expect(minimumMoves).toBe(expectedResult);
+        };
+    }
+
+    beforeEach(() => {
+        finder = new PathFinder();
+    })
+
+    describe('TDD', () => {
+        describe('build board', () => {
+            test('should have a board property', () => {
+                expect(finder).toHaveProperty("board");
+            });
+
+            test('should have an board defined', () => {
+                expect(finder.board).toBeDefined();
+            });
+
+            test('should have an with at least a 8x8 cells', () => {
+                finder.buildBoard(10)
+
+                expect(finder.board.length).toBeGreaterThanOrEqual(8);
+            });
+
+            test('should be a 2 dimensional array', () => {
+                const r = finder.board.filter((row) => row.length !== 8);
+                expect(r).toHaveLength(0);
+                expect(finder.board).toHaveLength(8);
+            })
+
+            test('each cell should be unique and range from 1 to 64 for an 8x8 board', () => {
+                const flatBoard = finder.board.flat()
+                expect(Math.min(...flatBoard)).toBe(1);
+                expect(Math.max(...flatBoard)).toBe(64);
+            });
+        });
+
+        describe('knight moves', () => {
+
+            test.each`
+  position    | target    | expected
+  ${1} | ${1} | ${{"cellIndex": 0, "rowIndex": 0}}
+  ${5} | ${1} | ${{"cellIndex": 4, "rowIndex": 0}}
+  ${24} | ${1} | ${{"cellIndex": 7, "rowIndex": 2}}
+  ${64} | ${1} | ${{"cellIndex": 7, "rowIndex": 7}}
+`("should start at the given position : $position", ({position, target, expected}) => {
+                finder.getMinimumMoves(position, target);
+
+                expect(finder.getRowAndCellIndexes(position)).toStrictEqual(expected);
+            })
+
+            test("should have a collection of moves", () => {
+                const knightMoves = finder.knightMoves;
+                const expectecMap = new Map();
+
+                expectecMap.set("up right", {y: -2, x: 1})
+                expectecMap.set("up left", {y: -2, x: -1})
+                expectecMap.set("right up", {x: 2, y: -1})
+                expectecMap.set("right down", {x: 2, y: 1})
+                expectecMap.set("bottom right", {y: 2, x: 1})
+                expectecMap.set("bottom left", {y: 2, x: -1})
+                expectecMap.set("left up", {x: -2, y: -1})
+                expectecMap.set("left bottom", {x: -2, y: 1})
+
+                expect(knightMoves).toStrictEqual(expectecMap);
+            })
+
+        });
+
+        describe('BFR algo', () => {
+
+            beforeEach(() => {
+                finder.buildBoard(3);
+                /*
+                  [
+                   [ 1, 2, 3 ],
+                   [ 4, 5, 6 ],
+                   [ 7, 8, 9 ]
+                  ],
+                * */
+            })
+
+            test.each([
+                // position, target, expected
+                [1, 4, 3],
+                [1, 6, 1],
+                [1, 5, 0]
+            ])("should a path length of 3", mockGetMinimumMoves())
+
+
+        })
+
+    })
+
+    describe('TASK 1', () => {
+        beforeEach(() => finder.buildBoard())
+
+        test.each([
+            // position, target, expected
+            [1, 1, 0],
+            [19, 53, 2],
+            [1, 64, 6],
+            [50, 20, 2],
+            [50, 51, 3]
+        ])('minimum move from %i to %i should be %i', mockGetMinimumMoves());
+    })
+
+    describe('TASK 2', () => {
+        beforeEach(() => finder.buildBoard(100))
+
+        test.each([
+            // position, target, expected
+            [12, 50, 20],
+            [1, 100, 51],
+            [100, 1, 51],
+            [24, 20, 2],
+            [20, 24, 2],
+            [42, 42, 0],
+            [25, 75, 26]
+        ])('minimum move' +
+            ' from' +
+            ' %i to %i' +
+            ' should' +
+            ' be %i', mockGetMinimumMoves());
+    })
 });
 
-test('From 19 to 53', () => {
-    const finder = new PathFinder();
-    expect(finder.getMinimumMoves(19, 53)).toBe(2);
-});
-
-test('From 1 to 64', () => {
-    const finder = new PathFinder();
-    expect(finder.getMinimumMoves(1, 64)).toBe(6);
-});
-
-test('From 50 to 20', () => {
-    const finder = new PathFinder();
-    expect(finder.getMinimumMoves(50, 20)).toBe(2);
-});
-
-test('From 50 to 51', () => {
-    const finder = new PathFinder();
-    expect(finder.getMinimumMoves(50, 51)).toBe(3);
-});
